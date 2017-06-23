@@ -39,38 +39,26 @@ public class SoccerParser {
     }
 }
 
-//{
-//        "syncresponse": {
-//           "synckey": "2011-09-30 14:52:00",
-//          "createdtrs": [
+//    public static List<Results> parseTeam(String content) {
+//        try {
 //
-//        ],
-//        "modtrs": [
+//            JSONObject object = new JSONObject(content);
+//            JSONArray jsonArray1 = object.getJSONArray(LINKS);
+//            List<Results> modelList = new ArrayList<>();
 //
-//        ],
-//        "deletedtrs": [
-//        {
-//        "companyid": "UTB17",
-//        "username": "DA",
-//        "date": "2011-09-26",
-//        "reportid": "31341"
+//            for (int i = 0; i < jsonArray1.length(); i++) {
+//
+//                JSONObject obj = jsonArray1.getJSONObject(i);
+//                Results model = new Results();
+//                model.setLeagueTable(obj.getString("leagueTable"));
+//                model.setTeamName(obj.getString("teamName"));
+//                modelList.add(model);
+//            }
+//
+//            return modelList;
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//            return null;
 //        }
-//        ]
-//        }
-//        }
+//    }
 
-//    JSONObject object = new JSONObject(result);
-//    String syncresponse = object.getString("syncresponse");
-//    JSONObject object2 = new JSONObject(syncresponse);
-//    String synckey = object2.getString("synckey");
-//    JSONArray jArray1 = object2.getJSONArray("createdtrs");
-//    JSONArray jArray2 = object2.getJSONArray("modtrs");
-//    JSONArray jArray3 = object2.getJSONArray("deletedtrs");
-//for(int i = 0; i < jArray3 .length(); i++)
-//        {
-//        JSONObject object3 = jArray3.getJSONObject(i);
-//        String comp_id = object3.getString("companyid");
-//        String username = object3.getString("username");
-//        String date = object3.getString("date");
-//        String report_id = object3.getString("reportid");
-//        }

@@ -26,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         displayContent(COMPETITIONS);
+        getSupportActionBar().setTitle(R.string.name);
         recyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
         recyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
@@ -35,39 +36,29 @@ public class MainActivity extends AppCompatActivity {
     }
 
     protected void displayContent(String sort) {
-//        String APPID_PARAM = (BuildConfig.API_KEY);
-//        requestData(URL + sort + APPID_PARAM);
         requestData(URL + sort);
-
     }
 
-
     private class MyTask extends AsyncTask<String, String, String> {
-
         @Override
         protected String doInBackground(String... params) {
             return HttpGetManager.getData(params[0]);
         }
-
         @Override
         protected void onPostExecute(String result) {
             modelList = SoccerParser.parseFeed(result);
             updateDisplay();
         }
-
     }
 
 
     private void updateDisplay() {
-
         RecyclerView.Adapter adapter = new SoccerAdapter(this, modelList);
         recyclerView.setAdapter(adapter);
-
     }
 
     private void requestData(String uri) {
         new MyTask().execute(uri);
     }
-
 
 }
