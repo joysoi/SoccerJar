@@ -15,8 +15,9 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final String URL = "http://api.football-data.org";
-    private static final String COMPETITIONS = "/v1/competitions/";
+    private static final String URL = "http://api.football-data.org/v1/competitions/";
+
+
     public RecyclerView recyclerView;
     private List<Results> modelList;
 
@@ -25,18 +26,16 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        displayContent(COMPETITIONS);
+        displayContent();
         getSupportActionBar().setTitle(R.string.name);
         recyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
         recyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-
-
     }
 
-    protected void displayContent(String sort) {
-        requestData(URL + sort);
+    protected void displayContent() {
+        requestData(URL);
     }
 
     private class MyTask extends AsyncTask<String, String, String> {
@@ -44,9 +43,11 @@ public class MainActivity extends AppCompatActivity {
         protected String doInBackground(String... params) {
             return HttpGetManager.getData(params[0]);
         }
+
         @Override
         protected void onPostExecute(String result) {
             modelList = SoccerParser.parseFeed(result);
+//            modelList = LeagueTableParser.parseFeed(result);
             updateDisplay();
         }
     }

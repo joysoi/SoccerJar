@@ -4,6 +4,7 @@ package com.example.nikola.soccerjar.model;
  * Created by Nikola on 6/22/2017.
  */
 
+
 public class Results {
 
     private String caption;
@@ -11,6 +12,51 @@ public class Results {
     private String id_;
     private String leagueTable;
     private String teamName;
+    private String year;
+    private String numberOfMatchdays;
+    private String numberOfTeams;
+    private String numberOfGames;
+    private String links;
+
+    public String getYear() {
+        return year;
+    }
+
+    public void setYear(String year) {
+        this.year = year;
+    }
+
+    public String getNumberOfMatchdays() {
+        return numberOfMatchdays;
+    }
+
+    public void setNumberOfMatchdays(String numberOfMatchdays) {
+        this.numberOfMatchdays = numberOfMatchdays;
+    }
+
+    public String getNumberOfTeams() {
+        return numberOfTeams;
+    }
+
+    public void setNumberOfTeams(String numberOfTeams) {
+        this.numberOfTeams = numberOfTeams;
+    }
+
+    public String getNumberOfGames() {
+        return numberOfGames;
+    }
+
+    public void setNumberOfGames(String numberOfGames) {
+        this.numberOfGames = numberOfGames;
+    }
+
+    public String getLinks() {
+        return links;
+    }
+
+    public void setLinks(String links) {
+        this.links = links;
+    }
 
     public String getTeamName() {
         return teamName;

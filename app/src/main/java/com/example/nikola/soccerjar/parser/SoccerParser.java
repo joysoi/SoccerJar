@@ -21,6 +21,7 @@ public class SoccerParser {
         try {
 
             JSONArray jsonArray = new JSONArray(content);
+
             List<Results> modelList = new ArrayList<>();
 
             for (int i = 0; i < jsonArray.length(); i++) {
@@ -28,9 +29,13 @@ public class SoccerParser {
                 JSONObject obj = jsonArray.getJSONObject(i);
                 Results model = new Results();
                 model.setCaption(obj.getString("caption"));
-                model.setLeague(obj.getString("league"));
+                model.setYear(obj.getString("year"));
+                model.setNumberOfMatchdays(obj.getString("numberOfMatchdays"));
+                model.setNumberOfTeams(obj.getString("numberOfTeams"));
+                model.setNumberOfGames(obj.getString("numberOfGames"));
                 modelList.add(model);
             }
+
             return modelList;
         } catch (JSONException e) {
             e.printStackTrace();
@@ -39,26 +44,5 @@ public class SoccerParser {
     }
 }
 
-//    public static List<Results> parseTeam(String content) {
-//        try {
-//
-//            JSONObject object = new JSONObject(content);
-//            JSONArray jsonArray1 = object.getJSONArray(LINKS);
-//            List<Results> modelList = new ArrayList<>();
-//
-//            for (int i = 0; i < jsonArray1.length(); i++) {
-//
-//                JSONObject obj = jsonArray1.getJSONObject(i);
-//                Results model = new Results();
-//                model.setLeagueTable(obj.getString("leagueTable"));
-//                model.setTeamName(obj.getString("teamName"));
-//                modelList.add(model);
-//            }
-//
-//            return modelList;
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//            return null;
-//        }
-//    }
+
 
