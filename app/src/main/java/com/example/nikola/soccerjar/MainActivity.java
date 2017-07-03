@@ -1,65 +1,51 @@
 package com.example.nikola.soccerjar;
 
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
-import com.example.nikola.soccerjar.adapter.SoccerAdapter;
-import com.example.nikola.soccerjar.http.HttpGetManager;
+import com.example.nikola.soccerjar.adapter.CompetitionsAdapter;
 import com.example.nikola.soccerjar.model.Results;
-import com.example.nikola.soccerjar.parser.SoccerParser;
+import com.example.nikola.soccerjar.parser.CompetitionsParserTask;
 
-import java.util.List;
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final String URL = "http://api.football-data.org/v1/competitions/";
-
-
     public RecyclerView recyclerView;
-    private List<Results> modelList;
+    ArrayList<Results> resultsParcelableArrayList = new ArrayList<>();
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        displayContent();
+
         getSupportActionBar().setTitle(R.string.name);
         recyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
         recyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
+        new CompetitionsClass().execute();
     }
 
-    protected void displayContent() {
-        requestData(URL);
-    }
-
-    private class MyTask extends AsyncTask<String, String, String> {
+    private class CompetitionsClass extends CompetitionsParserTask {
         @Override
-        protected String doInBackground(String... params) {
-            return HttpGetManager.getData(params[0]);
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            modelList = SoccerParser.parseFeed(result);
-//            modelList = LeagueTableParser.parseFeed(result);
-            updateDisplay();
+        protected void onPostExecute(ArrayList<Results> parcelables) {
+            if (parcelables != null) {
+                resultsParcelableArrayList.clear();
+                for (Results resultsParcelable : parcelables) {
+                    resultsParcelableArrayList.add(resultsParcelable);
+                }
+                updateDisplay();
+            }
         }
     }
-
 
     private void updateDisplay() {
-        RecyclerView.Adapter adapter = new SoccerAdapter(this, modelList);
+        RecyclerView.Adapter adapter = new CompetitionsAdapter(resultsParcelableArrayList, this);
         recyclerView.setAdapter(adapter);
-    }
-
-    private void requestData(String uri) {
-        new MyTask().execute(uri);
     }
 
 }
