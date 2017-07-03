@@ -1,2 +1,2 @@
 # SoccerJar
-Soccer leagues, tables and scores
+Soccer leagues, tables and scores.
