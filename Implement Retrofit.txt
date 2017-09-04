@@ -1,0 +1,7 @@
+fix: Implement Retrofit
+
+Include a REST Client that makes easier retriv.
+
+
+
+
