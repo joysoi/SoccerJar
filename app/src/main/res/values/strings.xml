@@ -1,8 +1,9 @@
 <resources>
     <string name="app_name">SoccerJar</string>
-    <string name="name">Soccer Jar</string>
     <string name="year">Year:" "</string>
     <string name="number_of_matches">Number of matches:" "</string>
     <string name="number_of_teams">Number of teams:" "</string>
     <string name="number_of_games">Number of games:" "</string>
+    <string name="action_forward">forward</string>
+    <string name="fixturesActivity">Fixtures</string>
 </resources>
