@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.nikola.soccerjar.R;
-import com.example.nikola.soccerjar.retrofit.Team;
+import com.example.nikola.soccerjar.retrofit.models.Team;
 
 import java.util.List;
 
@@ -19,7 +19,6 @@ import java.util.List;
 public class LeagueTablesAdapter extends RecyclerView.Adapter<LeagueTablesAdapter.ViewHolder> {
 
     private List<Team> teamList;
-
 
     public LeagueTablesAdapter(List<Team> objects) {
         teamList = objects;
@@ -39,7 +38,17 @@ public class LeagueTablesAdapter extends RecyclerView.Adapter<LeagueTablesAdapte
 
         final Team resultsParcelable = teamList.get(position);
         TextView teamName = holder.txtTeamName;
+        TextView pos = holder.txtPosition;
+        TextView pnts = holder.txtPoints;
+        TextView pld = holder.txtPlayed;
+        TextView gd = holder.txtGDiff;
         teamName.setText(resultsParcelable.getTeamName());
+        pos.setText(resultsParcelable.getPosition());
+        pnts.setText(resultsParcelable.getPoints());
+        pld.setText(resultsParcelable.getPlayed());
+        gd.setText(resultsParcelable.getGdiff());
+
+
     }
 
     @Override
@@ -51,11 +60,21 @@ public class LeagueTablesAdapter extends RecyclerView.Adapter<LeagueTablesAdapte
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
         public TextView txtTeamName;
+        public TextView txtPosition;
+        public TextView txtPoints;
+        public TextView txtPlayed;
+        public TextView txtGDiff;
+        public TextView itmSeparator;
 
 
         public ViewHolder(View itemView) {
             super(itemView);
             txtTeamName = (TextView) itemView.findViewById(R.id.txt_teamName);
+            txtPosition = (TextView) itemView.findViewById(R.id.txt_position);
+            txtPoints = (TextView) itemView.findViewById(R.id.txt_points);
+            txtPlayed = (TextView) itemView.findViewById(R.id.txt_played);
+            txtGDiff = (TextView) itemView.findViewById(R.id.txt_gdiff);
+            itmSeparator = (TextView) itemView.findViewById(R.id.separatorView);
         }
     }
 

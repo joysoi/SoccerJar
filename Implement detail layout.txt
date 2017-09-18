@@ -1,7 +1,0 @@
-fix: Implement detail layout
-
-Include a detail layout for the acivivity detail.
-
-
-
-

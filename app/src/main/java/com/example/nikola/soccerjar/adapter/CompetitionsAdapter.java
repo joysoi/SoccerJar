@@ -10,7 +10,7 @@ import android.widget.Button;
 
 import com.example.nikola.soccerjar.DetailsActivity;
 import com.example.nikola.soccerjar.R;
-import com.example.nikola.soccerjar.retrofit.Competition;
+import com.example.nikola.soccerjar.retrofit.models.Competition;
 
 import java.util.List;
 
@@ -47,10 +47,11 @@ public class CompetitionsAdapter extends RecyclerView.Adapter<CompetitionsAdapte
         caption.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO: 7/3/2017 callbacks implement
                 int id = resultsParcelable.get_id();
+                String cap = resultsParcelable.getCaption();
                 Intent i = new Intent(mContext, DetailsActivity.class);
                 i.putExtra("id", id);
+                i.putExtra("caption",cap);
                 mContext.startActivity(i);
             }
         });

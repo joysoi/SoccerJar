@@ -1,4 +1,4 @@
-package com.example.nikola.soccerjar.retrofit;
+package com.example.nikola.soccerjar.retrofit.models;
 
 import java.util.List;
 

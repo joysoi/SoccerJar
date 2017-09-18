@@ -3,15 +3,19 @@ package com.example.nikola.soccerjar;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import com.example.nikola.soccerjar.adapter.LeagueTablesAdapter;
 import com.example.nikola.soccerjar.retrofit.ApiManager;
 import com.example.nikola.soccerjar.retrofit.ApiService;
-import com.example.nikola.soccerjar.retrofit.League;
-import com.example.nikola.soccerjar.retrofit.Team;
+import com.example.nikola.soccerjar.retrofit.models.League;
+import com.example.nikola.soccerjar.retrofit.models.Team;
 
 import java.util.List;
 
@@ -26,22 +30,23 @@ import retrofit2.Response;
 public class DetailsActivity extends AppCompatActivity {
 
     public RecyclerView detailView;
-    private int id;
-    private String pageName;
+    public int id;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.actitvity_detail);
 
+        Toolbar toolbar = (Toolbar) findViewById(R.id.my_detailToolbar);
         detailView = (RecyclerView) findViewById(R.id.my_recyclerDetail_view);
         detailView.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         detailView.setLayoutManager(layoutManager);
         Intent intent = getIntent();
         id = intent.getIntExtra("id", 0);
-        pageName = intent.getStringExtra("caption");
-        setTitle(pageName);
+        String pageName = intent.getStringExtra("caption");
+        toolbar.setTitle(pageName);
+        setSupportActionBar(toolbar);
 
         ApiManager.getClient().create(ApiService.class).getLeague(id).enqueue(new Callback<League>() {
             @Override
@@ -56,56 +61,25 @@ public class DetailsActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<League> call, Throwable t) {
-
+                t.printStackTrace();
             }
         });
-
-
     }
 
 
-//    public  class noteThread1 extends Thread{
-//
-//        @Override
-//        public void run() {
-//
-//        }
-//    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.detail_menu, menu);
+        MenuItem frwdButton = menu.findItem(R.id.action_forward);
+        MenuItemCompat.getActionView(frwdButton);
+        return super.onCreateOptionsMenu(menu);
+    }
 
-//        ApiManager.getClient().create(ApiService.class).getLeague(id).enqueue(new Callback<List<League>>() {
-//            @Override
-//            public void onResponse(Call<List<League>> call, Response<List<League>> response) {
-//                if(response.isSuccessful()){
-//                    League league = response.body();
-//                    league.getStanding();
-//                    new LeagueTablesAdapter(league.getStanding());
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call<List<League>> call, Throwable t) {
-//
-//            }
-//        });
-//
-//    public class LeagueTablesClass extends LeagueTablesParserTask {
-//        @Override
-//        protected void onPostExecute(ArrayList<Results> parcelables) {
-//            if (parcelables != null) {
-//                resultsParcelableArrayList.clear();
-//                for (Results resultsParcelable : parcelables) {
-//                    resultsParcelableArrayList.add(resultsParcelable);
-//                }
-//                updateDetailsDisplay();
-//            }
-//        }
-//    }
+    public void showFixtures(MenuItem item) {
 
-
-//    public void updateDetailsDisplay() {
-//
-//        RecyclerView.Adapter adapter = new LeagueTablesAdapter(resultsParcelableArrayList);
-//        detailView.setAdapter(adapter);
-//    }
+        Intent intent1 = new Intent(DetailsActivity.this, FixturesActivity.class);
+        intent1.putExtra("id", id);
+        startActivity(intent1);
+    }
 }
 

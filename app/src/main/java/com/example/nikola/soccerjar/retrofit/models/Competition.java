@@ -1,4 +1,4 @@
-package com.example.nikola.soccerjar.retrofit;
+package com.example.nikola.soccerjar.retrofit.models;
 
 /**
  * Created by Nikola on 7/3/2017.
@@ -16,15 +16,8 @@ public class Competition {
         return caption;
     }
 
-    public void setCaption(String caption) {
-        this.caption = caption;
-    }
-
     public Integer get_id() {
         return id;
     }
 
-    public void set_id(Integer _id) {
-        this.id = _id;
-    }
 }
