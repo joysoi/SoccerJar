@@ -1,5 +1,5 @@
 # SoccerJar
-##Still in progress 
+## Still in progress 
 Soccer leagues, tables and scores
 
 <img src="https://github.com/joysoi/SoccerJar/blob/master/art/Screenshot_1499273837.png" 
