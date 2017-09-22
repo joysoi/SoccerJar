@@ -11,9 +11,10 @@ import android.support.v7.widget.Toolbar;
 import com.example.nikola.soccerjar.adapter.FixturesAdapter;
 import com.example.nikola.soccerjar.retrofit.ApiManager;
 import com.example.nikola.soccerjar.retrofit.ApiService;
-import com.example.nikola.soccerjar.retrofit.models.Fixtures;
+import com.example.nikola.soccerjar.retrofit.models.FixturesResponse;
 import com.example.nikola.soccerjar.retrofit.models.Team;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -34,6 +35,10 @@ public class FixturesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fixtures);
 
+
+//        getFragmentManager().beginTransaction()
+//                .replace(R.id.fragment_container, new FixturesDetailsFragment()).commit();
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.my_fixturesToolbar);
         fixturesView = (RecyclerView) findViewById(R.id.recyclerFixturesView);
         fixturesView.setHasFixedSize(true);
@@ -43,30 +48,35 @@ public class FixturesActivity extends AppCompatActivity {
         Intent intent = getIntent();
         id = intent.getIntExtra("id", 0);
 
-
         setSupportActionBar(toolbar);
         toolbar.setTitle(R.string.fixturesActivity);
 
 
-        ApiManager.getClient().create(ApiService.class).getFixtures(id).enqueue(new Callback<Fixtures>() {
+        ApiManager.getClient().create(ApiService.class).getFixtures(id).enqueue(new Callback<FixturesResponse>() {
             @Override
-            public void onResponse(Call<Fixtures> call, Response<Fixtures> response) {
+            public void onResponse(Call<FixturesResponse> call, Response<FixturesResponse> response) {
                 if (response.isSuccessful()) {
-                    Fixtures fixtures = response.body();
-                    List<Team> list = fixtures.getFixtures();
-                    FixturesAdapter fixturesAdapter = new FixturesAdapter(list);
-                    fixturesView.setAdapter(fixturesAdapter);
+                    FixturesResponse fixturesResponse = response.body();
+                    List<Team> teamList = fixturesResponse.getFixtures();
+                    List<Team> gameStatusList = new ArrayList();
+                    for (Team team : teamList) {
+                        if (team.getStatus().equals("SCHEDULED"))
+                            gameStatusList.add(team);
+                            FixturesAdapter adapter = new FixturesAdapter(gameStatusList);
+                            fixturesView.setAdapter(adapter);
+                    }
+
+//                    FixturesAdapter fixturesAdapter = new FixturesAdapter(teamList);
+//                    fixturesView.setAdapter(fixturesAdapter);
+
                 }
             }
 
             @Override
-            public void onFailure(Call<Fixtures> call, Throwable t) {
+            public void onFailure(Call<FixturesResponse> call, Throwable t) {
                 t.printStackTrace();
             }
         });
     }
 
 }
-
-
-
