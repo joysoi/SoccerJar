@@ -1,5 +1,5 @@
 # SoccerJar
-Soccer leagues and scores
+Soccer leagues, tables and scores
 ### Still in progress...
 
 <img src="https://github.com/joysoi/SoccerJar/blob/master/art/leagueNames.png" 
