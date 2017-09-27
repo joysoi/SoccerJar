@@ -12,14 +12,11 @@ import com.example.nikola.soccerjar.retrofit.models.Team;
 
 import java.util.List;
 
-/**
- * Created by Nikola on 9/12/2017.
- */
-
 public class FixturesAdapter extends RecyclerView.Adapter<FixturesAdapter.ViewHolder> {
 
 
     private List<Team> fixtureList;
+
 
     public FixturesAdapter(List<Team> list) {
         fixtureList = list;
@@ -38,9 +35,9 @@ public class FixturesAdapter extends RecyclerView.Adapter<FixturesAdapter.ViewHo
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, int position) {
 
-        Team teamList = fixtureList.get(position);
+        final Team teamList = fixtureList.get(position);
 
 
         TextView viewHome = holder.txtHome;
@@ -50,8 +47,11 @@ public class FixturesAdapter extends RecyclerView.Adapter<FixturesAdapter.ViewHo
 
         viewHome.setText(teamList.getHomeTeamName());
         viewAway.setText(teamList.getAwayTeamName());
-        viewHomeScore.setText(teamList.getResult().getGoalsHomeTeam()+"");
-        viewAwayScore.setText(teamList.getResult().getGoalsAwayTeam()+"");
+        viewHomeScore.setText(teamList.getResult().getGoalsHomeTeam() + "");
+        viewAwayScore.setText(teamList.getResult().getGoalsAwayTeam() + "");
+
+
+
     }
 
     @Override
@@ -60,14 +60,15 @@ public class FixturesAdapter extends RecyclerView.Adapter<FixturesAdapter.ViewHo
     }
 
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    static class ViewHolder extends RecyclerView.ViewHolder {
 
-       public TextView txtHome;
-       public TextView txtAway;
-       public TextView txtHomeScore;
-       public TextView txtAwayScore;
+        TextView txtHome;
+        TextView txtAway;
+        TextView txtHomeScore;
+        TextView txtAwayScore;
 
-        public ViewHolder(View itemView) {
+
+        ViewHolder(View itemView) {
             super(itemView);
 
             txtHome = (TextView) itemView.findViewById(R.id.txt_home);
