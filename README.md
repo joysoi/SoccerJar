@@ -2,7 +2,7 @@
 Soccer leagues, tables and scores
 ### Still in progress...
 
-<img src="https://github.com/joysoi/SoccerJar/blob/master/art/leagueNames.png" 
+<img src="" 
  height="520" width="270" align="left"/>
 <img src="https://github.com/joysoi/SoccerJar/blob/master/art/leagueTable.png" 
  height="520" width="270" align="left"/>
