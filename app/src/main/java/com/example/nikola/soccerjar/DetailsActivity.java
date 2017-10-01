@@ -2,8 +2,6 @@ package com.example.nikola.soccerjar;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.support.annotation.Nullable;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -51,40 +49,23 @@ public class DetailsActivity extends AppCompatActivity {
         myToolbar.setTitle(pageName);
 
 
-
-
-
-            Thread t = new Thread(new Runnable() {
+        ApiManager.getClient().create(ApiService.class).getLeague(id).enqueue(new Callback<LeagueResponse>() {
             @Override
-            public void run() {
-                ApiManager.getClient().create(ApiService.class).getLeague(id).enqueue(new Callback<LeagueResponse>() {
-                    @Override
-                    public void onResponse(Call<LeagueResponse> call, Response<LeagueResponse> response) {
-                        if (response.isSuccessful()) {
-                            LeagueResponse leagueResponse = response.body();
-                            List<Team> standing = leagueResponse.getStanding();
-                            final LeagueTablesAdapter tablesAdapter = new LeagueTablesAdapter(standing);
-                            recyclerViewDetail.setAdapter(tablesAdapter);
-                            new Handler(Looper.getMainLooper()).post(new Runnable() {
-                                @Override
-                                public void run() {
-                                    tablesAdapter.notifyDataSetChanged();
-                                }
-                            });
-                        }
-                    }
+            public void onResponse(Call<LeagueResponse> call, Response<LeagueResponse> response) {
+                if (response.isSuccessful()) {
+                    LeagueResponse leagueResponse = response.body();
+                    List<Team> standing = leagueResponse.getStanding();
+                    final LeagueTablesAdapter tablesAdapter = new LeagueTablesAdapter(standing);
+                    recyclerViewDetail.setAdapter(tablesAdapter);
+                }
+            }
 
-                    @Override
-                    public void onFailure(Call<LeagueResponse> call, Throwable t) {
-                        t.printStackTrace();
-                    }
-                });
+            @Override
+            public void onFailure(Call<LeagueResponse> call, Throwable t) {
+                t.printStackTrace();
             }
         });
-        t.start();
-
     }
-
 
 
     @Override
