@@ -14,13 +14,10 @@ import java.util.List;
 
 public class FixturesAdapter extends RecyclerView.Adapter<FixturesAdapter.ViewHolder> {
 
-
     private List<Team> fixtureList;
-
 
     public FixturesAdapter(List<Team> list) {
         fixtureList = list;
-
     }
 
 
@@ -39,7 +36,6 @@ public class FixturesAdapter extends RecyclerView.Adapter<FixturesAdapter.ViewHo
 
         final Team teamList = fixtureList.get(position);
 
-
         TextView viewHome = holder.txtHome;
         TextView viewAway = holder.txtAway;
         TextView viewHomeScore = holder.txtHomeScore;
@@ -50,8 +46,6 @@ public class FixturesAdapter extends RecyclerView.Adapter<FixturesAdapter.ViewHo
         viewHomeScore.setText(teamList.getResult().getGoalsHomeTeam() + "");
         viewAwayScore.setText(teamList.getResult().getGoalsAwayTeam() + "");
 
-
-
     }
 
     @Override
@@ -59,14 +53,12 @@ public class FixturesAdapter extends RecyclerView.Adapter<FixturesAdapter.ViewHo
         return fixtureList.size();
     }
 
-
     static class ViewHolder extends RecyclerView.ViewHolder {
 
         TextView txtHome;
         TextView txtAway;
         TextView txtHomeScore;
         TextView txtAwayScore;
-
 
         ViewHolder(View itemView) {
             super(itemView);

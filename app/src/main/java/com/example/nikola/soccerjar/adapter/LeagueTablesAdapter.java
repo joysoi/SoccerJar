@@ -12,9 +12,6 @@ import com.example.nikola.soccerjar.retrofit.models.Team;
 
 import java.util.List;
 
-/**
- * Created by Nikola on 6/22/2017.
- */
 
 public class LeagueTablesAdapter extends RecyclerView.Adapter<LeagueTablesAdapter.ViewHolder> {
 
@@ -56,7 +53,6 @@ public class LeagueTablesAdapter extends RecyclerView.Adapter<LeagueTablesAdapte
         return teamList.size();
     }
 
-
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
         public TextView txtTeamName;
@@ -65,7 +61,6 @@ public class LeagueTablesAdapter extends RecyclerView.Adapter<LeagueTablesAdapte
         public TextView txtPlayed;
         public TextView txtGDiff;
         public TextView itmSeparator;
-
 
         public ViewHolder(View itemView) {
             super(itemView);

@@ -2,9 +2,6 @@ package com.example.nikola.soccerjar.retrofit.models;
 
 import java.util.List;
 
-/**
- * Created by Nikola on 7/3/2017.
- */
 
 public class LeagueResponse {
 

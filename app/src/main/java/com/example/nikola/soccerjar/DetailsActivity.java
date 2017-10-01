@@ -2,6 +2,8 @@ package com.example.nikola.soccerjar;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.annotation.Nullable;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -14,57 +16,75 @@ import android.view.MenuItem;
 import com.example.nikola.soccerjar.adapter.LeagueTablesAdapter;
 import com.example.nikola.soccerjar.retrofit.ApiManager;
 import com.example.nikola.soccerjar.retrofit.ApiService;
-import com.example.nikola.soccerjar.retrofit.models.League;
+import com.example.nikola.soccerjar.retrofit.models.LeagueResponse;
 import com.example.nikola.soccerjar.retrofit.models.Team;
 
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-/**
- * Created by Nikola on 6/23/2017.
- */
 
 public class DetailsActivity extends AppCompatActivity {
 
-    public RecyclerView detailView;
+    @BindView(R.id.my_recyclerDetail_view)
+    RecyclerView recyclerViewDetail;
+    @BindView(R.id.my_detailToolbar)
+    Toolbar myToolbar;
     public int id;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.actitvity_detail);
+        ButterKnife.bind(this);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.my_detailToolbar);
-        detailView = (RecyclerView) findViewById(R.id.my_recyclerDetail_view);
-        detailView.setHasFixedSize(true);
+        recyclerViewDetail.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
-        detailView.setLayoutManager(layoutManager);
+        recyclerViewDetail.setLayoutManager(layoutManager);
         Intent intent = getIntent();
         id = intent.getIntExtra("id", 0);
         String pageName = intent.getStringExtra("caption");
-        toolbar.setTitle(pageName);
-        setSupportActionBar(toolbar);
+        myToolbar.setTitle(pageName);
 
-        ApiManager.getClient().create(ApiService.class).getLeague(id).enqueue(new Callback<League>() {
-            @Override
-            public void onResponse(Call<League> call, Response<League> response) {
-                if (response.isSuccessful()) {
-                    League league = response.body();
-                    List<Team> standing = league.getStanding();
-                    LeagueTablesAdapter tablesAdapter = new LeagueTablesAdapter(standing);
-                    detailView.setAdapter(tablesAdapter);
-                }
-            }
 
+
+
+
+            Thread t = new Thread(new Runnable() {
             @Override
-            public void onFailure(Call<League> call, Throwable t) {
-                t.printStackTrace();
+            public void run() {
+                ApiManager.getClient().create(ApiService.class).getLeague(id).enqueue(new Callback<LeagueResponse>() {
+                    @Override
+                    public void onResponse(Call<LeagueResponse> call, Response<LeagueResponse> response) {
+                        if (response.isSuccessful()) {
+                            LeagueResponse leagueResponse = response.body();
+                            List<Team> standing = leagueResponse.getStanding();
+                            final LeagueTablesAdapter tablesAdapter = new LeagueTablesAdapter(standing);
+                            recyclerViewDetail.setAdapter(tablesAdapter);
+                            new Handler(Looper.getMainLooper()).post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    tablesAdapter.notifyDataSetChanged();
+                                }
+                            });
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<LeagueResponse> call, Throwable t) {
+                        t.printStackTrace();
+                    }
+                });
             }
         });
+        t.start();
+
     }
+
 
 
     @Override
@@ -76,10 +96,11 @@ public class DetailsActivity extends AppCompatActivity {
     }
 
     public void showFixtures(MenuItem item) {
-
         Intent intent1 = new Intent(DetailsActivity.this, FixturesActivity.class);
         intent1.putExtra("id", id);
         startActivity(intent1);
-    }
-}
 
+    }
+
+
+}

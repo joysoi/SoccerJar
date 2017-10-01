@@ -9,9 +9,6 @@ import okhttp3.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-/**
- * Created by Nikola on 7/3/2017.
- */
 
 public class ApiManager {
 

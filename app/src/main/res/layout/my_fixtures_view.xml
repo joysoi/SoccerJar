@@ -23,7 +23,6 @@
         android:paddingLeft="5dp"
         android:paddingStart="5dp"
         android:paddingTop="5dp"
-        android:text="Home Team"
         android:textStyle="bold" />
 
     <TextView
@@ -35,7 +34,6 @@
         android:layout_below="@+id/txt_home"
         android:paddingLeft="5dp"
         android:paddingStart="5dp"
-        android:text="Away Team"
         android:textStyle="bold" />
 
     <TextView

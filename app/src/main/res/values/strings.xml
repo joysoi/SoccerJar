@@ -6,4 +6,5 @@
     <string name="number_of_games">Number of games:" "</string>
     <string name="action_forward">forward</string>
     <string name="fixturesActivity">Fixtures</string>
+    <string name="show_previous_results">Show Previous Results</string>
 </resources>

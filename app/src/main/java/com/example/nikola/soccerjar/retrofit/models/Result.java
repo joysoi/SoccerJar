@@ -1,23 +1,20 @@
 package com.example.nikola.soccerjar.retrofit.models;
 
-/**
- * Created by Nikola on 9/16/2017.
- */
 
 public class Result {
 
-    private Integer goalsHomeTeam;
-    private Integer goalsAwayTeam;
+    private int goalsHomeTeam;
+    private int goalsAwayTeam;
 
     public Result() {
     }
 
-    public Integer getGoalsHomeTeam() {
+    public int getGoalsHomeTeam() {
         return goalsHomeTeam;
     }
 
 
-    public Integer getGoalsAwayTeam() {
+    public int getGoalsAwayTeam() {
         return goalsAwayTeam;
     }
 

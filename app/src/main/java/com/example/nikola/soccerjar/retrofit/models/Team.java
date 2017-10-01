@@ -1,8 +1,5 @@
 package com.example.nikola.soccerjar.retrofit.models;
 
-/**
- * Created by Nikola on 7/3/2017.
- */
 
 public class Team {
 
@@ -13,10 +10,10 @@ public class Team {
     private final String goalDifference;
     private final String homeTeamName;
     private final String awayTeamName;
+    private final String status;
     private Result result;
 
-
-    public Team(String teamName, String position, String points, String playedGames, String goalDifference, String homeTeamName, String awayTeamName, Result result) {
+    public Team(String teamName, String position, String points, String playedGames, String goalDifference, String homeTeamName, String awayTeamName, Result result, String status){
         this.teamName = teamName;
         this.position = position;
         this.points = points;
@@ -24,12 +21,14 @@ public class Team {
         this.goalDifference = goalDifference;
         this.homeTeamName = homeTeamName;
         this.awayTeamName = awayTeamName;
+        this.status = status;
         this.result = result;
     }
 
     public String getPlayed() {
         return playedGames;
     }
+
 
     public String getGdiff() {
         return goalDifference;
@@ -55,7 +54,12 @@ public class Team {
         return awayTeamName;
     }
 
+    public String getStatus() {
+        return status;
+    }
+
     public Result getResult() {
         return result;
     }
+
 }
