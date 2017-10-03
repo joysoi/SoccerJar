@@ -92,7 +92,7 @@ public class FixturesFragment extends Fragment implements FixturesView {
 
     @Override
     public void unsucessfulResponse() {
-        Toast.makeText(getActivity(), "No list presented", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), "No list presented...", Toast.LENGTH_SHORT).show();
     }
 
     @Override
