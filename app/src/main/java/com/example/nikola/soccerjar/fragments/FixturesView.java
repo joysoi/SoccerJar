@@ -4,7 +4,7 @@ import com.example.nikola.soccerjar.retrofit.models.Team;
 
 import java.util.List;
 
-public interface FixturesView {
+interface FixturesView {
 
     void showTeamsWithScheduledStatus(List<Team> fixtureList);
 
