@@ -60,7 +60,7 @@ class FixturesPresenter {
     }
 
 
-    //    we want to connect with the passive view with this 2 methods
+    //   we want to connect with the passive view with this 2 methods
     void registerView(FixturesView fixturesView) {
         this.view = fixturesView;
     }
