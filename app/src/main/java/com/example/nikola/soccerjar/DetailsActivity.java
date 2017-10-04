@@ -1,5 +1,6 @@
 package com.example.nikola.soccerjar;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,29 +11,28 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.example.nikola.soccerjar.adapter.LeagueTablesAdapter;
-import com.example.nikola.soccerjar.retrofit.ApiManager;
-import com.example.nikola.soccerjar.retrofit.ApiService;
-import com.example.nikola.soccerjar.retrofit.models.LeagueResponse;
+import com.example.nikola.soccerjar.fragments.FixturesActivity;
 import com.example.nikola.soccerjar.retrofit.models.Team;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 
-public class DetailsActivity extends AppCompatActivity {
+public class DetailsActivity extends AppCompatActivity implements DetailsView {
 
     @BindView(R.id.my_recyclerDetail_view)
     RecyclerView recyclerViewDetail;
     @BindView(R.id.my_detailToolbar)
     Toolbar myToolbar;
     public int id;
+    DetailsPresenter detailsPresenter;
+    LeagueTablesAdapter tablesAdapter;
+    ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -48,25 +48,28 @@ public class DetailsActivity extends AppCompatActivity {
         String pageName = intent.getStringExtra("caption");
         myToolbar.setTitle(pageName);
 
+        progressDialog = new ProgressDialog(this);
 
-        ApiManager.getClient().create(ApiService.class).getLeague(id).enqueue(new Callback<LeagueResponse>() {
-            @Override
-            public void onResponse(Call<LeagueResponse> call, Response<LeagueResponse> response) {
-                if (response.isSuccessful()) {
-                    LeagueResponse leagueResponse = response.body();
-                    List<Team> standing = leagueResponse.getStanding();
-                    final LeagueTablesAdapter tablesAdapter = new LeagueTablesAdapter(standing);
-                    recyclerViewDetail.setAdapter(tablesAdapter);
-                }
-            }
+        tablesAdapter = new LeagueTablesAdapter();
+        recyclerViewDetail.setAdapter(tablesAdapter);
 
-            @Override
-            public void onFailure(Call<LeagueResponse> call, Throwable t) {
-                t.printStackTrace();
-            }
-        });
+        detailsPresenter = new DetailsPresenter();
+        detailsPresenter.getLeagueTable(id);
+
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        detailsPresenter.registerView(this);
+
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        detailsPresenter.unRegisterView();
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -84,4 +87,23 @@ public class DetailsActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public void showLeagueTable(List<Team> teams) {
+        tablesAdapter.updateLeagueTable(teams);
+    }
+
+    @Override
+    public void unsuccesfulResponse() {
+        Toast.makeText(this, "Table loading...", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showProgressDialog() {
+        progressDialog.show();
+    }
+
+    @Override
+    public void dismissProgressDialog() {
+        progressDialog.dismiss();
+    }
 }
