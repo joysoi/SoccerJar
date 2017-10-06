@@ -1,31 +1,27 @@
 package com.example.nikola.soccerjar;
 
 import android.app.ProgressDialog;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.widget.Toast;
 
 import com.example.nikola.soccerjar.adapter.CompetitionsAdapter;
-import com.example.nikola.soccerjar.retrofit.ApiManager;
-import com.example.nikola.soccerjar.retrofit.ApiService;
 import com.example.nikola.soccerjar.retrofit.models.CompetitionResponse;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements MainView {
 
     @BindView(R.id.my_recycler_view)
     RecyclerView recyclerViewMain;
     ProgressDialog progressDialog;
+    MainPresenter mainPresenter;
+    CompetitionsAdapter competitionsAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,61 +34,50 @@ public class MainActivity extends AppCompatActivity {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerViewMain.setLayoutManager(layoutManager);
 
-        CompetitionTask task = new CompetitionTask();
+
         progressDialog = new ProgressDialog(this);
-        progressDialog.show();
-        task.execute();
+
+
+        mainPresenter = new MainPresenter();
+        mainPresenter.getCompetitionView();
+
+        competitionsAdapter = new CompetitionsAdapter();
+        recyclerViewMain.setAdapter(competitionsAdapter);
     }
 
-    public class CompetitionTask extends AsyncTask<String, Integer, String> {
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mainPresenter.registerView(this);
+    }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        mainPresenter.unRegisterView();
+    }
 
-        @Override
-        protected String doInBackground(String... params) {
+    @Override
+    public void getCompetitionsList(List<CompetitionResponse> competitionResponses) {
+        competitionsAdapter.getCompetitions(this, competitionResponses);
+    }
 
-            ApiManager.getClient().create(ApiService.class).getCompetitions().enqueue(new Callback<List<CompetitionResponse>>() {
-                @Override
-                public void onResponse(Call<List<CompetitionResponse>> call, Response<List<CompetitionResponse>> response) {
-                    if (response.isSuccessful()) {
-                        List<CompetitionResponse> competitionListResponse = response.body();
-                        final List<CompetitionResponse> responseList = new ArrayList();
-                        for (CompetitionResponse competitionResponse : competitionListResponse) {
-                            String[] strList = new String[]{"445", "446", "447", "449", "452", "455", "456", "459"};
-                            int[] intList = new int[strList.length];
-                            for (int i = 0; i < strList.length; i++) {
-                                try {
-                                    intList[i] = Integer.parseInt(strList[i]);
-                                } catch (NumberFormatException nfe) {
-                                    nfe.printStackTrace();
-                                }
-                            }
-                            for (int anIntList : intList) {
-                                if (competitionResponse.get_id() == anIntList) {
-                                    responseList.add(competitionResponse);
-                                    final CompetitionsAdapter competitionsAdapter = new CompetitionsAdapter(responseList, MainActivity.this);
-                                    recyclerViewMain.setAdapter(competitionsAdapter);
-                                }
-                            }
-                        }
-                    }
-                }
+    @Override
+    public void unsuccesfulResponse() {
+        Toast.makeText(this, "Please wait...", Toast.LENGTH_LONG).show();
+    }
 
-                @Override
-                public void onFailure(Call<List<CompetitionResponse>> call, Throwable t) {
-                    t.printStackTrace();
-                }
-            });
+    @Override
+    public void showProgressDialog() {
+        progressDialog.show();
+    }
 
-            return "";
-        }
-
-        @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
-            progressDialog.dismiss();
-        }
+    @Override
+    public void dismissProgressDialog() {
+        progressDialog.dismiss();
     }
 }
+
 
 
 
