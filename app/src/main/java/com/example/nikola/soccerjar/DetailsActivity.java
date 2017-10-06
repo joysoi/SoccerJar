@@ -43,9 +43,11 @@ public class DetailsActivity extends AppCompatActivity implements DetailsView {
         recyclerViewDetail.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerViewDetail.setLayoutManager(layoutManager);
+
         Intent intent = getIntent();
         id = intent.getIntExtra("id", 0);
         String pageName = intent.getStringExtra("caption");
+
         myToolbar.setTitle(pageName);
 
         progressDialog = new ProgressDialog(this);
