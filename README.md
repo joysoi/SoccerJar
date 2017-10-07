@@ -1,5 +1,5 @@
 # SoccerJar
-Soccer leagues, tables and scores
+Soccer leagues, tables and scores provided by the football-data.org API.
 
 
 <img src="https://github.com/joysoi/SoccerJar/blob/master/art/leagueNames.png" 
