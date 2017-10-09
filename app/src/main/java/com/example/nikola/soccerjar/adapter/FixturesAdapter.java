@@ -5,21 +5,31 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.TextView;
 
 import com.example.nikola.soccerjar.R;
 import com.example.nikola.soccerjar.retrofit.models.Team;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class FixturesAdapter extends RecyclerView.Adapter<FixturesAdapter.ViewHolder> {
+;
 
-    private List<Team> fixtureList;
+public class FixturesAdapter extends RecyclerView.Adapter<FixturesAdapter.ViewHolder> implements Filterable {
 
-    public FixturesAdapter(List<Team> list) {
-        fixtureList = list;
+    private List<Team> fixtureList = new ArrayList<>();
+    private List<Team> filteredFixtureList = new ArrayList<>();
+    private ValueFilter valueFilter;
+
+    public void updateList(List<Team> list) {
+        this.fixtureList.clear();
+        this.filteredFixtureList.clear();
+        this.fixtureList.addAll(list);
+        this.filteredFixtureList.addAll(list);
+        notifyDataSetChanged();
     }
-
 
     @Override
     public FixturesAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -53,6 +63,14 @@ public class FixturesAdapter extends RecyclerView.Adapter<FixturesAdapter.ViewHo
         return fixtureList.size();
     }
 
+    @Override
+    public Filter getFilter() {
+        if (valueFilter == null) {
+            valueFilter = new ValueFilter();
+        }
+        return valueFilter;
+    }
+
     static class ViewHolder extends RecyclerView.ViewHolder {
 
         TextView txtHome;
@@ -69,6 +87,35 @@ public class FixturesAdapter extends RecyclerView.Adapter<FixturesAdapter.ViewHo
             txtAwayScore = (TextView) itemView.findViewById(R.id.text_awayScore);
         }
     }
+
+    private class ValueFilter extends Filter {
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+
+            String s = constraint.toString();
+            if (s.isEmpty()) {
+                filteredFixtureList = fixtureList;
+            } else {
+                ArrayList<Team> filterList = new ArrayList<>();
+                for (Team team : fixtureList) {
+                    if (team.getTeamName().equals(s)) {
+                        filterList.add(team);
+                    }
+                }
+                filteredFixtureList = filterList;
+            }
+            FilterResults results = new FilterResults();
+            results.values = filteredFixtureList;
+            return results;
+        }
+
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            filteredFixtureList = (ArrayList<Team>) results.values;
+            notifyDataSetChanged();
+        }
+    }
+
 }
 
 
