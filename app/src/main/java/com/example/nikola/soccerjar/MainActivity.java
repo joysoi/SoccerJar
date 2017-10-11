@@ -28,19 +28,12 @@ public class MainActivity extends AppCompatActivity implements MainView {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-
-
         recyclerViewMain.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerViewMain.setLayoutManager(layoutManager);
-
-
         progressDialog = new ProgressDialog(this);
-
-
         mainPresenter = new MainPresenter();
-        mainPresenter.getCompetitionView();
-
+        mainPresenter.getCompetitionList();
         competitionsAdapter = new CompetitionsAdapter();
         recyclerViewMain.setAdapter(competitionsAdapter);
     }
@@ -58,13 +51,13 @@ public class MainActivity extends AppCompatActivity implements MainView {
     }
 
     @Override
-    public void getCompetitionsList(List<CompetitionResponse> competitionResponses) {
+    public void showCompetitionsList(List<CompetitionResponse> competitionResponses) {
         competitionsAdapter.getCompetitions(this, competitionResponses);
     }
 
     @Override
     public void unsuccesfulResponse() {
-        Toast.makeText(this, "Please wait...", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, R.string.please_wait, Toast.LENGTH_LONG).show();
     }
 
     @Override

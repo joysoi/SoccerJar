@@ -11,16 +11,12 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-/**
- * Created by Nikola on 10/2/2017.
- */
 
-public class MainPresenter {
+class MainPresenter {
 
-    List<CompetitionResponse> list;
-    MainView view;
+    private MainView view;
 
-    public void getCompetitionView() {
+    void getCompetitionList() {
 
         if (view != null) {
             view.showProgressDialog();
@@ -31,7 +27,7 @@ public class MainPresenter {
             public void onResponse(Call<List<CompetitionResponse>> call, Response<List<CompetitionResponse>> response) {
                 if (response.isSuccessful()) {
                     List<CompetitionResponse> competitionListResponse = response.body();
-                    final List<CompetitionResponse> responseList = new ArrayList();
+                    final List<CompetitionResponse> responseList = new ArrayList<>();
                     for (CompetitionResponse competitionResponse : competitionListResponse) {
                         String[] strList = new String[]{"445", "446", "447", "449", "452", "455", "456", "459"};
                         int[] intList = new int[strList.length];
@@ -47,7 +43,7 @@ public class MainPresenter {
                                 responseList.add(competitionResponse);
                             }
                             if (view != null) {
-                                view.getCompetitionsList(responseList);
+                                view.showCompetitionsList(responseList);
                                 view.dismissProgressDialog();
                             }
                         }
@@ -67,11 +63,11 @@ public class MainPresenter {
 
     }
 
-    public void registerView(MainView mainView) {
+    void registerView(MainView mainView) {
         this.view = mainView;
     }
 
-    public void unRegisterView() {
+    void unRegisterView() {
         this.view = null;
     }
 

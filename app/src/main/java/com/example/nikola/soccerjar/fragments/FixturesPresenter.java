@@ -16,13 +16,13 @@ class FixturesPresenter {
 
     private FixturesView view;
     private List<Team> teamList = new ArrayList<>();
+    private static final String SCHEDULED_GAMES = "SCHEDULED";
 
     void getTeamNames(int id) {
 
         if (view != null) {
             view.showProgressDialog();
         }
-
 
         ApiManager.getClient().create(ApiService.class).getFixtures(id).enqueue(new Callback<FixturesResponse>() {
             @Override
@@ -32,7 +32,7 @@ class FixturesPresenter {
                     teamList = fixturesResponse.getFixtures();
                     List<Team> gameStatusList = new ArrayList<>();
                     for (Team team : teamList) {
-                        if (team.getStatus().equals("SCHEDULED")) {
+                        if (team.getStatus().equals(SCHEDULED_GAMES)) {
                             gameStatusList.add(team);
                         }
                     }
@@ -40,17 +40,14 @@ class FixturesPresenter {
                         view.showTeamsWithScheduledStatus(gameStatusList);
                         view.dismissProgressDialog();
                     }
-
                 } else {
                     if (view != null) {
-                        //If !Net
                         view.unsucessfulResponse();
                         view.dismissProgressDialog();
                     }
                 }
             }
 
-            //if !200
             @Override
             public void onFailure(Call<FixturesResponse> call, Throwable t) {
                 if (view != null) {
@@ -72,6 +69,23 @@ class FixturesPresenter {
     void getPreviousGames() {
         if (view != null) {
             view.showAllTeams(teamList);
+        }
+    }
+
+    void getFilteredList(String s) {
+        if (view != null) {
+            String searchText = s.toLowerCase();
+            ArrayList<Team> newFilteredList = new ArrayList<>();
+            for (Team team : teamList) {
+                if (team.getHomeTeamName().toLowerCase().contains(searchText) || team.getAwayTeamName().toLowerCase().contains(searchText)) {
+                    newFilteredList.add(team);
+                }
+            }
+            if (newFilteredList.size() != 0) {
+                if (view != null) {
+                    view.showFIlteredList(newFilteredList);
+                }
+            }
         }
     }
 }

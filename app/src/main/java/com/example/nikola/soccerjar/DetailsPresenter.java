@@ -5,7 +5,6 @@ import com.example.nikola.soccerjar.retrofit.ApiService;
 import com.example.nikola.soccerjar.retrofit.models.LeagueResponse;
 import com.example.nikola.soccerjar.retrofit.models.Team;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -13,13 +12,11 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class DetailsPresenter {
+class DetailsPresenter {
 
-    private List<Team> teams = new ArrayList<>();
-    DetailsView view;
+    private DetailsView view;
 
-
-    public void getLeagueTable(int id) {
+    void getLeagueTable(int id) {
 
         if (view != null) {
             view.showProgressDialog();
@@ -47,7 +44,6 @@ public class DetailsPresenter {
                 }
             }
         });
-
     }
 
     void registerView(DetailsView detailsView){

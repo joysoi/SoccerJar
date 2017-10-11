@@ -10,7 +10,6 @@ public class LeagueResponse {
     public LeagueResponse(List<Team> standing) {
         this.standing = standing;
     }
-
     public List<Team> getStanding() {
         return standing;
     }

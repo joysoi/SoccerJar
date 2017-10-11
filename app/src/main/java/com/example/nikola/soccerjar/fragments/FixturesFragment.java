@@ -27,7 +27,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-//Passive View:
+import static com.example.nikola.soccerjar.DetailsActivity.ID_KEY;
+
 public class FixturesFragment extends Fragment implements FixturesView {
 
     @BindView(R.id.showResultsBTN)
@@ -38,10 +39,10 @@ public class FixturesFragment extends Fragment implements FixturesView {
     FixturesAdapter fixturesAdapter;
     FixturesPresenter presenter;
 
-    public static FixturesFragment newInstance(int id) {
+    public FixturesFragment newInstance(int id) {
         FixturesFragment f = new FixturesFragment();
         Bundle args = new Bundle();
-        args.putInt("id", id);
+        args.putInt(ID_KEY, id);
         f.setArguments(args);
         return f;
     }
@@ -62,7 +63,6 @@ public class FixturesFragment extends Fragment implements FixturesView {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-
     }
 
     @Nullable
@@ -76,10 +76,10 @@ public class FixturesFragment extends Fragment implements FixturesView {
         fixturesAdapter = new FixturesAdapter();
         recyclerViewFixtures.setAdapter(fixturesAdapter);
         progressDialog = new ProgressDialog(getActivity());
-        progressDialog.setMessage("Please wait...");
+        progressDialog.setMessage(getString(R.string.please_wait));
         presenter = new FixturesPresenter();
         if (!getArguments().isEmpty()) {
-            int id = getArguments().getInt("id");
+            int id = getArguments().getInt(ID_KEY);
             presenter.getTeamNames(id);
         }
         return view;
@@ -91,14 +91,24 @@ public class FixturesFragment extends Fragment implements FixturesView {
         inflater.inflate(R.menu.fixtures_menu, menu);
         MenuItem search = menu.findItem(R.id.search);
         SearchView searchView = (SearchView) MenuItemCompat.getActionView(search);
-        showFilteredNames(searchView);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                presenter.getFilteredList(newText);
+                return false;
+            }
+        });
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         return super.onOptionsItemSelected(item);
     }
-
 
     @Override
     public void showTeamsWithScheduledStatus(List<Team> fixtureList) {
@@ -110,26 +120,14 @@ public class FixturesFragment extends Fragment implements FixturesView {
         fixturesAdapter.updateList(fixtureList);
     }
 
-
-    public void showFilteredNames(SearchView searchView) {
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                fixturesAdapter.getFilter().filter(newText);
-                return true;
-            }
-        });
-
+    @Override
+    public void showFIlteredList(List<Team> filteredList) {
+        fixturesAdapter.updateList(filteredList);
     }
 
     @Override
     public void unsucessfulResponse() {
-        Toast.makeText(getActivity(), "No list presented...", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), R.string.noListPresented, Toast.LENGTH_SHORT).show();
     }
 
     @Override

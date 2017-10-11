@@ -10,6 +10,8 @@ interface FixturesView {
 
     void showAllTeams(List<Team> fixtureList);
 
+    void showFIlteredList(List<Team> filteredList);
+
     void unsucessfulResponse();
 
     void showProgressDialog();

@@ -5,9 +5,9 @@ import com.example.nikola.soccerjar.retrofit.models.CompetitionResponse;
 
 import java.util.List;
 
-public interface MainView {
+interface MainView {
 
-    void getCompetitionsList(List<CompetitionResponse> competitionResponses);
+    void showCompetitionsList(List<CompetitionResponse> competitionResponses);
 
     void unsuccesfulResponse();
 

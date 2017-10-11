@@ -13,7 +13,7 @@ public class Team {
     private final String status;
     private Result result;
 
-    public Team(String teamName, String position, String points, String playedGames, String goalDifference, String homeTeamName, String awayTeamName, Result result, String status){
+    public Team(String teamName, String position, String points, String playedGames, String goalDifference, String homeTeamName, String awayTeamName, Result result, String status) {
         this.teamName = teamName;
         this.position = position;
         this.points = points;
@@ -29,7 +29,6 @@ public class Team {
         return playedGames;
     }
 
-
     public String getGdiff() {
         return goalDifference;
     }
@@ -42,7 +41,7 @@ public class Team {
         return points;
     }
 
-    public String getPosition(){
+    public String getPosition() {
         return position;
     }
 
@@ -61,5 +60,4 @@ public class Team {
     public Result getResult() {
         return result;
     }
-
 }

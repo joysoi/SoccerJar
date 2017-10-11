@@ -13,16 +13,25 @@ import com.example.nikola.soccerjar.DetailsActivity;
 import com.example.nikola.soccerjar.R;
 import com.example.nikola.soccerjar.retrofit.models.CompetitionResponse;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
+import static com.example.nikola.soccerjar.DetailsActivity.CAPTION_KEY;
+import static com.example.nikola.soccerjar.DetailsActivity.ID_KEY;
+
+
 public class CompetitionsAdapter extends RecyclerView.Adapter<CompetitionsAdapter.ViewHolder> {
+    private List<CompetitionResponse> competitionListResponse = new ArrayList<>();
+    private Context context;
 
-    private List<CompetitionResponse> competitionListResponse;
-    private Context mContext;
-
-    public CompetitionsAdapter(List<CompetitionResponse> list, Context context) {
-        competitionListResponse = list;
-        mContext = context;
+    public void getCompetitions(Context context, List<CompetitionResponse> competitionResponses) {
+        this.context = context;
+        this.competitionListResponse.clear();
+        this.competitionListResponse.addAll(competitionResponses);
+        notifyDataSetChanged();
     }
 
     @Override
@@ -43,18 +52,14 @@ public class CompetitionsAdapter extends RecyclerView.Adapter<CompetitionsAdapte
         caption.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 int id = resultsParcelable.get_id();
                 String cap = resultsParcelable.getCaption();
-                Intent i = new Intent(mContext, DetailsActivity.class);
-                i.putExtra("id", id);
-                i.putExtra("caption", cap);
-                mContext.startActivity(i);
-
+                Intent i = new Intent(context, DetailsActivity.class);
+                i.putExtra(ID_KEY, id);
+                i.putExtra(CAPTION_KEY, cap);
+                context.startActivity(i);
             }
         });
-
-
     }
 
     @Override
@@ -62,20 +67,17 @@ public class CompetitionsAdapter extends RecyclerView.Adapter<CompetitionsAdapte
         return competitionListResponse.size();
     }
 
+    class ViewHolder extends RecyclerView.ViewHolder {
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+        @BindView(R.id.card_view)
+        CardView crd_team_name;
+        @BindView(R.id.txt_leagues)
+        TextView txt_team_name;
 
-        public CardView crd_team_name;
-        public TextView txt_team_name;
-
-
-        public ViewHolder(View itemView) {
+        ViewHolder(View itemView) {
             super(itemView);
-            crd_team_name = (CardView) itemView.findViewById(R.id.card_view);
-            txt_team_name = (TextView) itemView.findViewById(R.id.txt_leagues);
+            ButterKnife.bind(this, itemView);
         }
     }
-
-
 }
 

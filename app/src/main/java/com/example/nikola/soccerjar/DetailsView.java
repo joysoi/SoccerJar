@@ -5,7 +5,7 @@ import com.example.nikola.soccerjar.retrofit.models.Team;
 
 import java.util.List;
 
-public interface DetailsView {
+interface DetailsView {
 
     void showLeagueTable(List<Team> teams);
 

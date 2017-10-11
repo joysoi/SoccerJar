@@ -33,28 +33,25 @@ public class DetailsActivity extends AppCompatActivity implements DetailsView {
     DetailsPresenter detailsPresenter;
     LeagueTablesAdapter tablesAdapter;
     ProgressDialog progressDialog;
+    public static final String CAPTION_KEY = "caption";
+    public static final String ID_KEY = "id";
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.actitvity_detail);
         ButterKnife.bind(this);
-
         recyclerViewDetail.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerViewDetail.setLayoutManager(layoutManager);
-
         Intent intent = getIntent();
-        id = intent.getIntExtra("id", 0);
-        String pageName = intent.getStringExtra("caption");
-
+        id = intent.getIntExtra(ID_KEY, 0);
+        String pageName = intent.getStringExtra(CAPTION_KEY);
         myToolbar.setTitle(pageName);
-
         progressDialog = new ProgressDialog(this);
-
         tablesAdapter = new LeagueTablesAdapter();
         recyclerViewDetail.setAdapter(tablesAdapter);
-
         detailsPresenter = new DetailsPresenter();
         detailsPresenter.getLeagueTable(id);
 
@@ -64,7 +61,6 @@ public class DetailsActivity extends AppCompatActivity implements DetailsView {
     protected void onStart() {
         super.onStart();
         detailsPresenter.registerView(this);
-
     }
 
     @Override
@@ -83,11 +79,10 @@ public class DetailsActivity extends AppCompatActivity implements DetailsView {
 
     public void showFixtures(MenuItem item) {
         Intent intent1 = new Intent(DetailsActivity.this, FixturesActivity.class);
-        intent1.putExtra("id", id);
+        intent1.putExtra(ID_KEY, id);
         startActivity(intent1);
 
     }
-
 
     @Override
     public void showLeagueTable(List<Team> teams) {
@@ -96,7 +91,7 @@ public class DetailsActivity extends AppCompatActivity implements DetailsView {
 
     @Override
     public void unsuccesfulResponse() {
-        Toast.makeText(this, "Table loading...", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, R.string.table_loading, Toast.LENGTH_SHORT).show();
     }
 
     @Override

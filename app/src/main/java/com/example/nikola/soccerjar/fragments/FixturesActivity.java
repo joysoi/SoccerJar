@@ -7,6 +7,8 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.example.nikola.soccerjar.R;
 
+import static com.example.nikola.soccerjar.DetailsActivity.ID_KEY;
+
 
 public class FixturesActivity extends AppCompatActivity {
 
@@ -18,10 +20,8 @@ public class FixturesActivity extends AppCompatActivity {
         setContentView(R.layout.activity_fixtures);
 
         Intent intent = getIntent();
-        id = intent.getIntExtra("id", 0);
+        id = intent.getIntExtra(ID_KEY, 0);
         getFragmentManager().beginTransaction()
                 .replace(R.id.container, new FixturesFragment().newInstance(id)).commit();
-
-
     }
 }

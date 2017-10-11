@@ -10,15 +10,21 @@ import android.widget.TextView;
 import com.example.nikola.soccerjar.R;
 import com.example.nikola.soccerjar.retrofit.models.Team;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 
 public class LeagueTablesAdapter extends RecyclerView.Adapter<LeagueTablesAdapter.ViewHolder> {
 
-    private List<Team> teamList;
+    private List<Team> teamList = new ArrayList<>();
 
-    public LeagueTablesAdapter(List<Team> objects) {
-        teamList = objects;
+    public void updateLeagueTable(List<Team> teamList) {
+        this.teamList.clear();
+        this.teamList.addAll(teamList);
+        notifyDataSetChanged();
     }
 
     @Override
@@ -45,7 +51,6 @@ public class LeagueTablesAdapter extends RecyclerView.Adapter<LeagueTablesAdapte
         pld.setText(resultsParcelable.getPlayed());
         gd.setText(resultsParcelable.getGdiff());
 
-
     }
 
     @Override
@@ -53,27 +58,26 @@ public class LeagueTablesAdapter extends RecyclerView.Adapter<LeagueTablesAdapte
         return teamList.size();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView txtTeamName;
-        public TextView txtPosition;
-        public TextView txtPoints;
-        public TextView txtPlayed;
-        public TextView txtGDiff;
-        public TextView itmSeparator;
+        @BindView(R.id.txt_teamName)
+        TextView txtTeamName;
+        @BindView(R.id.txt_position)
+        TextView txtPosition;
+        @BindView(R.id.txt_points)
+        TextView txtPoints;
+        @BindView(R.id.txt_played)
+        TextView txtPlayed;
+        @BindView(R.id.txt_gdiff)
+        TextView txtGDiff;
+        @BindView(R.id.separatorView)
+        TextView itmSeparator;
 
-        public ViewHolder(View itemView) {
+        ViewHolder(View itemView) {
             super(itemView);
-            txtTeamName = (TextView) itemView.findViewById(R.id.txt_teamName);
-            txtPosition = (TextView) itemView.findViewById(R.id.txt_position);
-            txtPoints = (TextView) itemView.findViewById(R.id.txt_points);
-            txtPlayed = (TextView) itemView.findViewById(R.id.txt_played);
-            txtGDiff = (TextView) itemView.findViewById(R.id.txt_gdiff);
-            itmSeparator = (TextView) itemView.findViewById(R.id.separatorView);
+            ButterKnife.bind(this, itemView);
         }
     }
-
-
 }
 
 
