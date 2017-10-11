@@ -1,7 +1,5 @@
 package com.example.nikola.soccerjar.fragments;
 
-import android.support.v7.widget.SearchView;
-
 import com.example.nikola.soccerjar.retrofit.ApiManager;
 import com.example.nikola.soccerjar.retrofit.ApiService;
 import com.example.nikola.soccerjar.retrofit.models.FixturesResponse;
@@ -75,22 +73,5 @@ class FixturesPresenter {
         if (view != null) {
             view.showAllTeams(teamList);
         }
-    }
-
-    void getSearchList(SearchView searchView) {
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                if (view != null) {
-                    view.showFilteredNames(teamList, newText);
-                }
-                return true;
-            }
-        });
     }
 }
