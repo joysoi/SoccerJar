@@ -1,5 +1,7 @@
 package com.example.nikola.soccerjar.fragments;
 
+import android.support.v7.widget.SearchView;
+
 import com.example.nikola.soccerjar.retrofit.ApiManager;
 import com.example.nikola.soccerjar.retrofit.ApiService;
 import com.example.nikola.soccerjar.retrofit.models.FixturesResponse;
@@ -43,12 +45,14 @@ class FixturesPresenter {
 
                 } else {
                     if (view != null) {
+                        //If !Net
                         view.unsucessfulResponse();
                         view.dismissProgressDialog();
                     }
                 }
             }
 
+            //if !200
             @Override
             public void onFailure(Call<FixturesResponse> call, Throwable t) {
                 if (view != null) {
@@ -59,8 +63,6 @@ class FixturesPresenter {
         });
     }
 
-
-    //   we want to connect with the passive view with this 2 methods
     void registerView(FixturesView fixturesView) {
         this.view = fixturesView;
     }
@@ -75,4 +77,20 @@ class FixturesPresenter {
         }
     }
 
+    void getSearchList(SearchView searchView) {
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                if (view != null) {
+                    view.showFilteredNames(teamList, newText);
+                }
+                return true;
+            }
+        });
+    }
 }
