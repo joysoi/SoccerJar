@@ -14,15 +14,6 @@
         android:textColor="@color/colorAccent"
         android:text="@string/show_previous_results" />
 
-    <ProgressBar
-        android:id="@+id/progressbar"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="200dp"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@+id/recyclerFixturesView"
-        />
-
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerFixturesView"
         android:layout_width="wrap_content"
