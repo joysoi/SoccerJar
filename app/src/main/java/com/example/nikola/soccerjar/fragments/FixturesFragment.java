@@ -4,9 +4,14 @@ import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -81,6 +86,21 @@ public class FixturesFragment extends Fragment implements FixturesView {
     }
 
     @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.fixtures_menu, menu);
+        MenuItem search = menu.findItem(R.id.search);
+        SearchView searchView = (SearchView) MenuItemCompat.getActionView(search);
+        showFilteredNames(searchView);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        return super.onOptionsItemSelected(item);
+    }
+
+
+    @Override
     public void showTeamsWithScheduledStatus(List<Team> fixtureList) {
         fixturesAdapter.updateList(fixtureList);
     }
@@ -88,6 +108,23 @@ public class FixturesFragment extends Fragment implements FixturesView {
     @Override
     public void showAllTeams(List<Team> fixtureList) {
         fixturesAdapter.updateList(fixtureList);
+    }
+
+
+    public void showFilteredNames(SearchView searchView) {
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                fixturesAdapter.getFilter().filter(newText);
+                return true;
+            }
+        });
+
     }
 
     @Override
@@ -106,8 +143,9 @@ public class FixturesFragment extends Fragment implements FixturesView {
     }
 
     @OnClick(R.id.showResultsBTN)
-    public void onShowResultsClick(){
+    public void onShowResultsClick() {
         presenter.getPreviousGames();
     }
+
 }
 
