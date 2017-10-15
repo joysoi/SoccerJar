@@ -10,5 +10,5 @@ Soccer leagues, tables and scores provided by the football-data.org API.
  height="520" width="280" align="left"/>
  
  <img src="https://github.com/joysoi/SoccerJar/blob/master/art/search_view.png" 
- height="520" width="269" vspace="30"/>
+ height="520" width="268" vspace="30"/>
 
