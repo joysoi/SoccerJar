@@ -28,7 +28,7 @@ public class DetailsActivity extends AppCompatActivity implements DetailsView {
     @BindView(R.id.my_recyclerDetail_view)
     RecyclerView recyclerViewDetail;
     @BindView(R.id.my_detailToolbar)
-    Toolbar myToolbar;
+    Toolbar toolbar;
     public int id;
     DetailsPresenter detailsPresenter;
     LeagueTablesAdapter tablesAdapter;
@@ -48,7 +48,7 @@ public class DetailsActivity extends AppCompatActivity implements DetailsView {
         Intent intent = getIntent();
         id = intent.getIntExtra(ID_KEY, 0);
         String pageName = intent.getStringExtra(CAPTION_KEY);
-        myToolbar.setTitle(pageName);
+        toolbar.setTitle(pageName);
         progressDialog = new ProgressDialog(this);
         tablesAdapter = new LeagueTablesAdapter();
         recyclerViewDetail.setAdapter(tablesAdapter);
