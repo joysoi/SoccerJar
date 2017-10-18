@@ -26,7 +26,7 @@ import butterknife.ButterKnife;
 public class DetailsActivity extends AppCompatActivity implements DetailsView {
 
     @BindView(R.id.my_recyclerDetail_view)
-    RecyclerView recyclerViewDetail;
+    RecyclerView recyclerView;
     @BindView(R.id.my_detailToolbar)
     Toolbar toolbar;
     public int id;
@@ -42,16 +42,16 @@ public class DetailsActivity extends AppCompatActivity implements DetailsView {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.actitvity_detail);
         ButterKnife.bind(this);
-        recyclerViewDetail.setHasFixedSize(true);
+        recyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
-        recyclerViewDetail.setLayoutManager(layoutManager);
+        recyclerView.setLayoutManager(layoutManager);
         Intent intent = getIntent();
         id = intent.getIntExtra(ID_KEY, 0);
         String pageName = intent.getStringExtra(CAPTION_KEY);
         toolbar.setTitle(pageName);
         progressDialog = new ProgressDialog(this);
         tablesAdapter = new LeagueTablesAdapter();
-        recyclerViewDetail.setAdapter(tablesAdapter);
+        recyclerView.setAdapter(tablesAdapter);
         detailsPresenter = new DetailsPresenter();
         detailsPresenter.getLeagueTable(id);
 
